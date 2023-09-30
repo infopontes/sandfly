@@ -1,5 +1,7 @@
 from pydantic import BaseModel, ConfigDict, EmailStr
 
+from sandfly.models import ContactType
+
 
 class UserSchema(BaseModel):
     username: str
@@ -33,3 +35,26 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     username: str | None = None
+
+
+# Model of contact information
+
+
+class ContactSchema(BaseModel):
+    type_contact: ContactType
+    description: str
+
+
+class ContactPublic(BaseModel):
+    id: int
+    type_contact: ContactType
+    description: str
+
+
+class ContactList(BaseModel):
+    contacts: list[ContactPublic]
+
+
+class ContactUpdate(BaseModel):
+    type_contact: str | None = None
+    description: str | None = None
