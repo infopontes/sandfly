@@ -11,4 +11,4 @@ app.include_router(contacts.router)
 
 @app.get('/')
 def read_root():
-    return {'message': 'Olá Mundo!'}
+    return {'message': 'Welcome to the SandFly API!'}
