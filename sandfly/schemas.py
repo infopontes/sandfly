@@ -7,12 +7,14 @@ class UserSchema(BaseModel):
     username: str
     email: EmailStr
     password: str
+    profile: str
 
 
 class UserPublic(BaseModel):
     id: int
     username: str
     email: EmailStr
+    profile: str
     model_config = ConfigDict(from_attributes=True)
 
 

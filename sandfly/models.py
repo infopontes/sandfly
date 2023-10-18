@@ -4,6 +4,17 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
 
+
+class UserProfile(str, Enum):
+    admin = 'administrator'
+    student = 'student'
+    professor = 'professor'
+    research = 'research'
+    basic = 'basic'
+    
+
+
+
 class ContactType(str, Enum):
     phone = 'phone'
     email = 'email'
@@ -20,6 +31,7 @@ class User(Base):
     username: Mapped[str]
     password: Mapped[str]
     email: Mapped[str]
+    profile: Mapped[UserProfile] = mapped_column(default='basic')
 
     contacts: Mapped[list['Contact']] = relationship(
         back_populates='user', cascade='all, delete-orphan'
