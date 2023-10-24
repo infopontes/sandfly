@@ -1,20 +1,19 @@
 from pydantic import BaseModel, ConfigDict, EmailStr
 
-from sandfly.models import ContactType
+from sandfly.models import ContactType, UserProfile
 
 
 class UserSchema(BaseModel):
     username: str
     email: EmailStr
     password: str
-    profile: str
+    profile: UserProfile
 
 
 class UserPublic(BaseModel):
     id: int
     username: str
     email: EmailStr
-    profile: str
     model_config = ConfigDict(from_attributes=True)
 
 
