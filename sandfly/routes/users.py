@@ -1,3 +1,4 @@
+import uuid
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -24,6 +25,7 @@ def create_user(user: UserSchema, session: Session):
     hashed_password = get_password_hash(user.password)
 
     db_user = User(
+        id=user.id,
         email=user.email,
         username=user.username,
         password=hashed_password,
@@ -47,16 +49,18 @@ def read_users(
 
 @router.put('/{user_id}', response_model=UserPublic)
 def update_user(
-    user_id: int, user: UserSchema, session: Session, current_user: CurrentUser
+    user_id: uuid.UUID, user: UserSchema, session: Session, current_user: CurrentUser
 ):
     if current_user.id != user_id:
         raise HTTPException(status_code=400, detail='Not enough permissions')
     
     hashed_password = get_password_hash(user.password)
 
+    
     current_user.username = user.username
     current_user.password = hashed_password
     current_user.email = user.email
+    current_user.profile = user.profile
     session.commit()
     session.refresh(current_user)
 
@@ -64,7 +68,7 @@ def update_user(
 
 
 @router.delete('/{user_id}', response_model=Message)
-def delete_user(user_id: int, session: Session, current_user: CurrentUser):
+def delete_user(user_id: uuid.UUID, session: Session, current_user: CurrentUser):
     if current_user.id != user_id:
         raise HTTPException(status_code=400, detail='Not enough permissions')
 

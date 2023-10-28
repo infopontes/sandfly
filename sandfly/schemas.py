@@ -1,9 +1,11 @@
-from pydantic import BaseModel, ConfigDict, EmailStr
+from pydantic import BaseModel, ConfigDict, EmailStr, UUID4
 
 from sandfly.models import ContactType, UserProfile
 
 
 class UserSchema(BaseModel):
+    id: UUID4
+    #id: int
     username: str
     email: EmailStr
     password: str
@@ -11,7 +13,6 @@ class UserSchema(BaseModel):
 
 
 class UserPublic(BaseModel):
-    id: int
     username: str
     email: EmailStr
     model_config = ConfigDict(from_attributes=True)
@@ -22,7 +23,8 @@ class UserList(BaseModel):
 
 
 class UserDB(UserSchema):
-    id: int
+    id: UUID4
+    #id: int
 
 
 class Message(BaseModel):
@@ -42,12 +44,13 @@ class TokenData(BaseModel):
 
 
 class ContactSchema(BaseModel):
+    id: UUID4
+    #id: int
     type_contact: ContactType
     description: str
 
 
 class ContactPublic(BaseModel):
-    id: int
     type_contact: ContactType
     description: str
 
